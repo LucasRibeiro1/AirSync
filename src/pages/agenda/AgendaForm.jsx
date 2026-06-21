@@ -1,5 +1,5 @@
 import {
-  Dialog, DialogTitle, DialogContent, DialogActions, Button, Grid,
+  Dialog, DialogTitle, DialogContent, DialogActions, Button, Box,
   TextField, MenuItem, FormControl, InputLabel, Select,
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
@@ -44,86 +44,68 @@ export default function AgendaForm({ open, onClose, initial }) {
       <DialogTitle>{initial?.id ? 'Editar Agendamento' : 'Novo Agendamento'}</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Controller
-                name="clienteId"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <FormControl fullWidth error={!!errors.clienteId}>
-                    <InputLabel>Cliente *</InputLabel>
-                    <Select {...field} label="Cliente *">
-                      {clientes.map((c) => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Grid>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <Controller
+              name="clienteId"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium" error={!!errors.clienteId} sx={{ gridColumn: 'span 2' }}>
+                  <InputLabel>Cliente *</InputLabel>
+                  <Select {...field} label="Cliente *">
+                    {clientes.map((c) => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )}
+            />
             {cliente && (
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="Telefone" value={cliente.telefone} disabled />
-              </Grid>
+              <TextField fullWidth size="medium" label="Telefone" value={cliente.telefone} disabled />
             )}
-            <Grid item xs={12} sm={cliente ? 6 : 12}>
-              <Controller
-                name="tipo"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <FormControl fullWidth error={!!errors.tipo}>
-                    <InputLabel>Tipo de Atendimento *</InputLabel>
-                    <Select {...field} label="Tipo de Atendimento *">
-                      {tiposAtendimento.map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Data *" type="date" InputLabelProps={{ shrink: true }}
-                {...register('data', { required: true })} error={!!errors.data} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Horário *" type="time" InputLabelProps={{ shrink: true }}
-                {...register('horario', { required: true })} error={!!errors.horario} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller
-                name="tecnicoId"
-                control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth>
-                    <InputLabel>Técnico Responsável</InputLabel>
-                    <Select {...field} label="Técnico Responsável">
-                      <MenuItem value="">Nenhum</MenuItem>
-                      {tecnicos.map((t) => <MenuItem key={t.id} value={t.id}>{t.nome}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller
-                name="status"
-                control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth>
-                    <InputLabel>Status</InputLabel>
-                    <Select {...field} label="Status">
-                      {statusOptions.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField fullWidth label="Endereço" {...register('endereco')} />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField fullWidth label="Observações" multiline rows={3} {...register('observacoes')} />
-            </Grid>
-          </Grid>
+            <Controller
+              name="tipo"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium" error={!!errors.tipo} sx={!cliente ? { gridColumn: 'span 2' } : {}}>
+                  <InputLabel>Tipo de Atendimento *</InputLabel>
+                  <Select {...field} label="Tipo de Atendimento *">
+                    {tiposAtendimento.map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )}
+            />
+            <TextField fullWidth size="medium" label="Data *" type="date" InputLabelProps={{ shrink: true }}
+              {...register('data', { required: true })} error={!!errors.data} />
+            <TextField fullWidth size="medium" label="Horário *" type="time" InputLabelProps={{ shrink: true }}
+              {...register('horario', { required: true })} error={!!errors.horario} />
+            <Controller
+              name="tecnicoId"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium">
+                  <InputLabel>Técnico Responsável</InputLabel>
+                  <Select {...field} label="Técnico Responsável">
+                    <MenuItem value="">Nenhum</MenuItem>
+                    {tecnicos.map((t) => <MenuItem key={t.id} value={t.id}>{t.nome}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )}
+            />
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium">
+                  <InputLabel>Status</InputLabel>
+                  <Select {...field} label="Status">
+                    {statusOptions.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )}
+            />
+            <TextField fullWidth size="medium" label="Endereço" {...register('endereco')} sx={{ gridColumn: 'span 2' }} />
+            <TextField fullWidth size="medium" label="Observações" multiline rows={3} {...register('observacoes')} sx={{ gridColumn: 'span 2' }} />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancelar</Button>

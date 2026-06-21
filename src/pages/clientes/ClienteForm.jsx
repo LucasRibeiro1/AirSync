@@ -1,5 +1,5 @@
 import {
-  Dialog, DialogTitle, DialogContent, DialogActions, Button, Grid, TextField,
+  Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, TextField,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useStore } from '../../store';
@@ -21,29 +21,15 @@ export default function ClienteForm({ open, onClose, initial }) {
       <DialogTitle>{initial?.id ? 'Editar Cliente' : 'Novo Cliente'}</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField fullWidth label="Nome / Razão Social *" {...register('nome', { required: true })} error={!!errors.nome} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="CPF / CNPJ" {...register('cpfCnpj')} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Responsável" {...register('responsavel')} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Telefone" {...register('telefone')} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="E-mail" type="email" {...register('email')} />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField fullWidth label="Endereço" {...register('endereco')} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Cidade" {...register('cidade')} />
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <TextField fullWidth size="medium" label="Nome / Razão Social *" {...register('nome', { required: true })} error={!!errors.nome} sx={{ gridColumn: 'span 2' }} />
+            <TextField fullWidth size="medium" label="CPF / CNPJ" {...register('cpfCnpj')} />
+            <TextField fullWidth size="medium" label="Responsável" {...register('responsavel')} />
+            <TextField fullWidth size="medium" label="Telefone" {...register('telefone')} />
+            <TextField fullWidth size="medium" label="E-mail" type="email" {...register('email')} />
+            <TextField fullWidth size="medium" label="Endereço" {...register('endereco')} sx={{ gridColumn: 'span 2' }} />
+            <TextField fullWidth size="medium" label="Cidade" {...register('cidade')} />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancelar</Button>

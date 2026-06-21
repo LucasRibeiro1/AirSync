@@ -177,7 +177,20 @@ export const useStore = create(
       updateEmpresa: (dados) => set((s) => ({ empresa: { ...s.empresa, ...dados } })),
 
       // Auth
-      usuario: { id: 1, nome: 'Administrador', email: 'admin@airsync.com', perfil: 'Administrador' },
+      authUser: null,
+      login: (username, password) => {
+        if (username === 'admin' && password === 'admin') {
+          set({ authUser: { id: 'admin', nome: 'Administrador', username: 'admin', email: 'admin@airsync.com', perfil: 'Administrador', isAdmin: true, permissoes: ['*'] } });
+          return { ok: true };
+        }
+        const user = get().usuarios.find((u) => u.username === username && u.senha === password);
+        if (!user) return { ok: false, msg: 'Usuário ou senha incorretos.' };
+        if (user.bloqueado) return { ok: false, msg: 'Usuário bloqueado. Entre em contato com o administrador.' };
+        if (!user.ativo) return { ok: false, msg: 'Usuário inativo.' };
+        set({ authUser: { id: user.id, nome: user.nome, username: user.username, email: user.email, perfil: user.perfil, isAdmin: false, permissoes: user.permissoes || [] } });
+        return { ok: true };
+      },
+      logout: () => set({ authUser: null }),
       tema: 'light',
       setTema: (tema) => set({ tema }),
 
@@ -241,12 +254,15 @@ export const useStore = create(
 
       // Usuarios
       usuarios: [
-        { id: 1, nome: 'Administrador', email: 'admin@airsync.com', perfil: 'Administrador', ativo: true },
-        { id: 2, nome: 'André Técnico', email: 'andre@airsync.com', perfil: 'Técnico', ativo: true },
-        { id: 3, nome: 'Comercial 01', email: 'comercial@airsync.com', perfil: 'Comercial', ativo: true },
+        { id: 1, nome: 'André Técnico', username: 'andre.tecnico', senha: '', email: 'andre@airsync.com', perfil: 'Técnico', ativo: true, bloqueado: false, permissoes: ['Dashboard', 'Agenda', 'Ordens de Serviço', 'Clientes', 'Checklist Técnico', 'PMOC', 'Ferramentas'] },
+        { id: 2, nome: 'Comercial 01', username: 'comercial01', senha: '', email: 'comercial@airsync.com', perfil: 'Comercial', ativo: true, bloqueado: false, permissoes: ['Dashboard', 'Clientes', 'Vendas', 'Financeiro'] },
+        { id: 3, nome: 'Fábio Teste', username: 'fabio.teste', senha: '123456', email: 'fabio@airsync.com', perfil: 'Técnico', ativo: true, bloqueado: false, permissoes: ['Dashboard', 'Agenda', 'Ordens de Serviço', 'Clientes', 'PMOC', 'Checklist Técnico', 'Ferramentas', 'Compras', 'Vendas', 'Financeiro', 'Configurador'] },
       ],
-      addUsuario: (u) => set((s) => ({ usuarios: [...s.usuarios, { ...u, id: Date.now(), ativo: true }] })),
+      addUsuario: (u) => set((s) => ({ usuarios: [...s.usuarios, { ...u, id: Date.now(), ativo: true, bloqueado: false, permissoes: u.permissoes || [] }] })),
       updateUsuario: (id, d) => set((s) => ({ usuarios: s.usuarios.map((u) => (u.id === id ? { ...u, ...d } : u)) })),
+      deleteUsuario: (id) => set((s) => ({ usuarios: s.usuarios.filter((u) => u.id !== id) })),
+      toggleBloqueado: (id) => set((s) => ({ usuarios: s.usuarios.map((u) => (u.id === id ? { ...u, bloqueado: !u.bloqueado } : u)) })),
+      setPermissoes: (id, permissoes) => set((s) => ({ usuarios: s.usuarios.map((u) => (u.id === id ? { ...u, permissoes } : u)) })),
 
       // ── PMOC — Contratos ──────────────────────────────────────────────────
       contratosPMOC: mockContratosPMOC,
@@ -278,6 +294,6 @@ export const useStore = create(
       updateChecklist: (id, d) => set((s) => ({ checklists: s.checklists.map((c) => (c.id === id ? { ...c, ...d } : c)) })),
       deleteChecklist: (id) => set((s) => ({ checklists: s.checklists.filter((c) => c.id !== id) })),
     }),
-    { name: 'airsync-storage' }
+    { name: 'airsync-v3' }
   )
 );

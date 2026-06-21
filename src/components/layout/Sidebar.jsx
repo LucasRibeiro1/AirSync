@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
-  Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
+  Box, Drawer, List, ListItemButton, ListItemIcon, ListItemText,
   Toolbar, Typography, Divider, Collapse, useTheme, alpha,
 } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -19,19 +19,19 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import BuildIcon from '@mui/icons-material/Build';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { ICONES_MAP } from './Header';
 import { useStore } from '../../store';
 
 const DRAWER_WIDTH = 260;
 
-const navItems = [
-  { label: 'Dashboard', icon: <DashboardIcon />, path: '/' },
-  { label: 'Agenda', icon: <CalendarMonthIcon />, path: '/agenda' },
-  { label: 'Ordens de Serviço', icon: <AssignmentIcon />, path: '/ordens' },
-  { label: 'Clientes', icon: <PeopleIcon />, path: '/clientes' },
+const NAV_ITEMS = [
+  { label: 'Dashboard', icon: <DashboardIcon />, path: '/', module: 'Dashboard' },
+  { label: 'Agenda', icon: <CalendarMonthIcon />, path: '/agenda', module: 'Agenda' },
+  { label: 'Ordens de Serviço', icon: <AssignmentIcon />, path: '/ordens', module: 'Ordens de Serviço' },
+  { label: 'Clientes', icon: <PeopleIcon />, path: '/clientes', module: 'Clientes' },
   {
-    label: 'PMOC',
-    icon: <ArticleIcon />,
+    label: 'PMOC', icon: <ArticleIcon />, module: 'PMOC',
     children: [
       { label: 'Dashboard PMOC', path: '/pmoc' },
       { label: 'Contratos', path: '/pmoc/contratos' },
@@ -39,18 +39,16 @@ const navItems = [
       { label: 'Planejamento', path: '/pmoc/planejamento' },
     ],
   },
-  { label: 'Checklist Técnico', icon: <AssignmentTurnedInIcon />, path: '/checklist' },
+  { label: 'Checklist Técnico', icon: <AssignmentTurnedInIcon />, path: '/checklist', module: 'Checklist Técnico' },
   {
-    label: 'Ferramentas',
-    icon: <BuildIcon />,
+    label: 'Ferramentas', icon: <BuildIcon />, module: 'Ferramentas',
     children: [
       { label: 'Calculadora BTU', path: '/calculadora' },
       { label: 'Simulador de Consumo', path: '/simulador' },
     ],
   },
   {
-    label: 'Compras',
-    icon: <ShoppingCartIcon />,
+    label: 'Compras', icon: <ShoppingCartIcon />, module: 'Compras',
     children: [
       { label: 'Fornecedores', path: '/compras/fornecedores' },
       { label: 'Pedidos de Compra', path: '/compras/pedidos' },
@@ -58,23 +56,25 @@ const navItems = [
     ],
   },
   {
-    label: 'Vendas',
-    icon: <PointOfSaleIcon />,
+    label: 'Vendas', icon: <PointOfSaleIcon />, module: 'Vendas',
     children: [
       { label: 'Orçamentos', path: '/vendas/orcamentos' },
       { label: 'Vendas', path: '/vendas/lista' },
     ],
   },
   {
-    label: 'Financeiro',
-    icon: <AccountBalanceWalletIcon />,
+    label: 'Financeiro', icon: <AccountBalanceWalletIcon />, module: 'Financeiro',
     children: [
       { label: 'Contas a Receber', path: '/financeiro/receber' },
       { label: 'Contas a Pagar', path: '/financeiro/pagar' },
       { label: 'Fluxo de Caixa', path: '/financeiro/fluxo' },
     ],
   },
-  { label: 'Configurador', icon: <TuneIcon />, path: '/configurador' },
+  { label: 'Configurador', icon: <TuneIcon />, path: '/configurador', module: 'Configurador' },
+];
+
+const ADMIN_ITEMS = [
+  { label: 'Gerenciar Acesso', icon: <AdminPanelSettingsIcon />, path: '/admin', module: '__admin__' },
 ];
 
 export default function Sidebar({ open, onClose, variant }) {
@@ -82,9 +82,18 @@ export default function Sidebar({ open, onClose, variant }) {
   const location = useLocation();
   const theme = useTheme();
   const [expanded, setExpanded] = useState({});
-  const { empresa } = useStore();
+  const { empresa, authUser } = useStore();
 
   const primaryMain = theme.palette.primary.main;
+
+  const hasPermission = (module) => {
+    if (!module) return true;
+    if (module === '__admin__') return authUser?.isAdmin === true;
+    if (authUser?.isAdmin || authUser?.permissoes?.includes('*')) return true;
+    return authUser?.permissoes?.includes(module) || false;
+  };
+
+  const visibleItems = [...NAV_ITEMS, ...ADMIN_ITEMS].filter((item) => hasPermission(item.module));
 
   const handleToggle = (label) =>
     setExpanded((p) => ({ ...p, [label]: !p[label] }));
@@ -145,7 +154,7 @@ export default function Sidebar({ open, onClose, variant }) {
 
       {/* Nav */}
       <List sx={{ flex: 1, px: 1.25, py: 1.5, overflowY: 'auto', overflowX: 'hidden' }}>
-        {navItems.map((item) =>
+        {visibleItems.map((item) =>
           item.children ? (
             <Box key={item.label}>
               <ListItemButton

@@ -1,9 +1,11 @@
 import { useMemo } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { ptBR } from '@mui/material/locale';
 import Layout from './components/layout/Layout';
+import Login from './pages/login/Login';
+import AdminPanel from './pages/admin/AdminPanel';
 import Dashboard from './pages/dashboard/Dashboard';
 import Agenda from './pages/agenda/Agenda';
 import Ordens from './pages/ordens/Ordens';
@@ -28,6 +30,13 @@ import Checklist from './pages/checklist/Checklist';
 import { useStore } from './store';
 
 const PRIMARY = '#1565c0';
+
+function ProtectedLayout() {
+  const { authUser } = useStore();
+  const location = useLocation();
+  if (!authUser) return <Navigate to="/login" replace state={{ from: location }} />;
+  return <Layout><Outlet /></Layout>;
+}
 
 export default function App() {
   const { tema } = useStore();
@@ -148,8 +157,9 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <Layout>
-          <Routes>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route element={<ProtectedLayout />}>
             {/* Core */}
             <Route path="/" element={<Dashboard />} />
             <Route path="/agenda" element={<Agenda />} />
@@ -186,8 +196,11 @@ export default function App() {
             {/* Configurações */}
             <Route path="/usuarios" element={<Usuarios />} />
             <Route path="/configurador" element={<Configurador />} />
-          </Routes>
-        </Layout>
+
+            {/* Admin */}
+            <Route path="/admin" element={<AdminPanel />} />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </ThemeProvider>
   );

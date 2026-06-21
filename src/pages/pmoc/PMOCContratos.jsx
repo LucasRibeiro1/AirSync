@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   Box, Card, CardContent, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, IconButton, Chip, Button, Dialog, DialogTitle,
-  DialogContent, DialogActions, TextField, MenuItem, Grid, Typography,
+  DialogContent, DialogActions, TextField, MenuItem, Typography,
   Tooltip, Alert, InputAdornment,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -182,50 +182,37 @@ export default function PMOCContratos() {
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>{editing ? 'Editar Contrato PMOC' : 'Novo Contrato PMOC'}</DialogTitle>
         <DialogContent dividers>
-          <Grid container spacing={2} sx={{ pt: 1 }}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                select fullWidth size="small" label="Cliente *"
-                value={form.clienteId || ''} onChange={handleClienteChange}
-              >
-                {clientes.map((c) => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth size="small" label="Unidade / Filial *"
-                value={form.unidade} onChange={(e) => setForm((f) => ({ ...f, unidade: e.target.value }))} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth size="small" label="Responsável"
-                value={form.responsavel} onChange={(e) => setForm((f) => ({ ...f, responsavel: e.target.value }))} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField select fullWidth size="small" label="Frequência das Manutenções"
-                value={form.frequencia} onChange={(e) => setForm((f) => ({ ...f, frequencia: e.target.value }))}
-              >
-                {FREQUENCIAS.map((f) => <MenuItem key={f} value={f}>{f}</MenuItem>)}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth size="small" label="Data de Início *" type="date"
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <TextField
+              select fullWidth size="medium" label="Cliente *"
+              value={form.clienteId || ''} onChange={handleClienteChange}
+            >
+              {clientes.map((c) => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}
+            </TextField>
+            <TextField fullWidth size="medium" label="Unidade / Filial *"
+              value={form.unidade} onChange={(e) => setForm((f) => ({ ...f, unidade: e.target.value }))} />
+            <TextField fullWidth size="medium" label="Responsável"
+              value={form.responsavel} onChange={(e) => setForm((f) => ({ ...f, responsavel: e.target.value }))} />
+            <TextField select fullWidth size="medium" label="Frequência das Manutenções"
+              value={form.frequencia} onChange={(e) => setForm((f) => ({ ...f, frequencia: e.target.value }))}
+            >
+              {FREQUENCIAS.map((f) => <MenuItem key={f} value={f}>{f}</MenuItem>)}
+            </TextField>
+            <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 2, gridColumn: 'span 2' }}>
+              <TextField fullWidth size="medium" label="Data de Início *" type="date"
                 value={form.dataInicio} onChange={(e) => setForm((f) => ({ ...f, dataInicio: e.target.value }))}
                 InputLabelProps={{ shrink: true }} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth size="small" label="Data de Vencimento *" type="date"
+              <TextField fullWidth size="medium" label="Data de Vencimento *" type="date"
                 value={form.dataVencimento} onChange={(e) => setForm((f) => ({ ...f, dataVencimento: e.target.value }))}
                 InputLabelProps={{ shrink: true }} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth size="small" label="Valor Mensal (R$)" type="number"
+              <TextField fullWidth size="medium" label="Valor Mensal (R$)" type="number"
                 value={form.valor} onChange={(e) => setForm((f) => ({ ...f, valor: Number(e.target.value) }))}
                 InputProps={{ startAdornment: <InputAdornment position="start">R$</InputAdornment> }} />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField fullWidth size="small" label="Observações" multiline rows={3}
-                value={form.observacoes} onChange={(e) => setForm((f) => ({ ...f, observacoes: e.target.value }))} />
-            </Grid>
-          </Grid>
+            </Box>
+            <TextField fullWidth size="medium" label="Observações" multiline rows={3}
+              value={form.observacoes} onChange={(e) => setForm((f) => ({ ...f, observacoes: e.target.value }))}
+              sx={{ gridColumn: 'span 2' }} />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancelar</Button>

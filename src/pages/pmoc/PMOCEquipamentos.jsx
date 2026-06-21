@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   Box, Card, CardContent, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, IconButton, Chip, Button, Dialog, DialogTitle,
-  DialogContent, DialogActions, TextField, MenuItem, Grid, Typography,
+  DialogContent, DialogActions, TextField, MenuItem, Typography,
   Tooltip, InputAdornment,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -173,62 +173,46 @@ export default function PMOCEquipamentos() {
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>{editing ? 'Editar Equipamento' : 'Novo Equipamento PMOC'}</DialogTitle>
         <DialogContent dividers>
-          <Grid container spacing={2} sx={{ pt: 1 }}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                select fullWidth size="small" label="Contrato PMOC vinculado"
-                value={form.contratoPMOCId || ''} onChange={handleContratoChange}
-              >
-                <MenuItem value="">Sem vínculo</MenuItem>
-                {contratosPMOC.map((c) => (
-                  <MenuItem key={c.id} value={c.id}>{c.numero} — {c.clienteNome}</MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField select fullWidth size="small" label="Tipo do Equipamento"
-                value={form.tipo} onChange={(e) => setForm((f) => ({ ...f, tipo: e.target.value }))}
-              >
-                {TIPOS.map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth size="small" label="Marca *"
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <TextField
+              select fullWidth size="medium" label="Contrato PMOC vinculado"
+              value={form.contratoPMOCId || ''} onChange={handleContratoChange}
+            >
+              <MenuItem value="">Sem vínculo</MenuItem>
+              {contratosPMOC.map((c) => (
+                <MenuItem key={c.id} value={c.id}>{c.numero} — {c.clienteNome}</MenuItem>
+              ))}
+            </TextField>
+            <TextField select fullWidth size="medium" label="Tipo do Equipamento"
+              value={form.tipo} onChange={(e) => setForm((f) => ({ ...f, tipo: e.target.value }))}
+            >
+              {TIPOS.map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
+            </TextField>
+            <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 2, gridColumn: 'span 2' }}>
+              <TextField fullWidth size="medium" label="Marca *"
                 value={form.marca} onChange={(e) => setForm((f) => ({ ...f, marca: e.target.value }))} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth size="small" label="Modelo *"
+              <TextField fullWidth size="medium" label="Modelo *"
                 value={form.modelo} onChange={(e) => setForm((f) => ({ ...f, modelo: e.target.value }))} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField select fullWidth size="small" label="Capacidade BTU"
+              <TextField select fullWidth size="medium" label="Capacidade BTU"
                 value={form.capacidadeBTU} onChange={(e) => setForm((f) => ({ ...f, capacidadeBTU: e.target.value }))}
               >
                 {BTUS.map((b) => <MenuItem key={b} value={b}>{Number(b).toLocaleString('pt-BR')} BTUs</MenuItem>)}
                 <MenuItem value="custom">Outro</MenuItem>
               </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth size="small" label="Número de Série"
-                value={form.numeroSerie} onChange={(e) => setForm((f) => ({ ...f, numeroSerie: e.target.value }))} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth size="small" label="Local de Instalação"
-                value={form.localInstalacao} onChange={(e) => setForm((f) => ({ ...f, localInstalacao: e.target.value }))} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth size="small" label="Data de Instalação" type="date"
-                value={form.dataInstalacao} onChange={(e) => setForm((f) => ({ ...f, dataInstalacao: e.target.value }))}
-                InputLabelProps={{ shrink: true }} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField select fullWidth size="small" label="Situação Operacional"
-                value={form.situacao} onChange={(e) => setForm((f) => ({ ...f, situacao: e.target.value }))}
-              >
-                {SITUACOES.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
-              </TextField>
-            </Grid>
-          </Grid>
+            </Box>
+            <TextField fullWidth size="medium" label="Número de Série"
+              value={form.numeroSerie} onChange={(e) => setForm((f) => ({ ...f, numeroSerie: e.target.value }))} />
+            <TextField fullWidth size="medium" label="Local de Instalação"
+              value={form.localInstalacao} onChange={(e) => setForm((f) => ({ ...f, localInstalacao: e.target.value }))} />
+            <TextField fullWidth size="medium" label="Data de Instalação" type="date"
+              value={form.dataInstalacao} onChange={(e) => setForm((f) => ({ ...f, dataInstalacao: e.target.value }))}
+              InputLabelProps={{ shrink: true }} />
+            <TextField select fullWidth size="medium" label="Situação Operacional"
+              value={form.situacao} onChange={(e) => setForm((f) => ({ ...f, situacao: e.target.value }))}
+            >
+              {SITUACOES.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
+            </TextField>
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancelar</Button>

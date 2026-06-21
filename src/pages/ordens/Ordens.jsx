@@ -57,23 +57,21 @@ export default function Ordens() {
         actionLabel="Nova OS"
       />
 
-      <Grid container spacing={2} sx={{ mb: 2 }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 2, mb: 2 }}>
         {[
           { label: 'Total de OS', value: stats.total, color: 'primary' },
           { label: 'Em Andamento', value: stats.emAndamento, color: 'warning' },
           { label: 'Concluídas', value: stats.concluidas, color: 'success' },
           { label: 'Abertas', value: stats.abertas, color: 'info' },
         ].map((s) => (
-          <Grid item xs={6} sm={3} key={s.label}>
-            <Card>
-              <CardContent sx={{ textAlign: 'center', py: 2, '&:last-child': { pb: 2 } }}>
-                <Typography variant="h4" fontWeight={700} color={`${s.color}.main`}>{s.value}</Typography>
-                <Typography variant="caption" color="text.secondary">{s.label}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+          <Card key={s.label}>
+            <CardContent sx={{ textAlign: 'center', py: 2, '&:last-child': { pb: 2 } }}>
+              <Typography variant="h4" fontWeight={700} color={`${s.color}.main`}>{s.value}</Typography>
+              <Typography variant="caption" color="text.secondary">{s.label}</Typography>
+            </CardContent>
+          </Card>
         ))}
-      </Grid>
+      </Box>
 
       <Card>
         <CardContent>

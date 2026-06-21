@@ -48,28 +48,24 @@ function OrcamentoForm({ open, onClose, initial }) {
       <DialogTitle>{initial?.id ? `Editar ${initial.numero}` : 'Novo Orçamento'}</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent dividers>
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12} sm={6}>
-              <Controller name="clienteId" control={control} rules={{ required: true }}
-                render={({ field }) => (
-                  <FormControl fullWidth><InputLabel>Cliente *</InputLabel>
-                    <Select {...field} label="Cliente *">
-                      {clientes.map((c) => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller name="pagamento" control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth><InputLabel>Pagamento</InputLabel>
-                    <Select {...field} label="Pagamento">
-                      {PAGAMENTO.map((p) => <MenuItem key={p} value={p}>{p}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )} />
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mb: 2 }}>
+            <Controller name="clienteId" control={control} rules={{ required: true }}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium"><InputLabel>Cliente *</InputLabel>
+                  <Select {...field} label="Cliente *">
+                    {clientes.map((c) => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )} />
+            <Controller name="pagamento" control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium"><InputLabel>Pagamento</InputLabel>
+                  <Select {...field} label="Pagamento">
+                    {PAGAMENTO.map((p) => <MenuItem key={p} value={p}>{p}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )} />
+          </Box>
 
           <Typography variant="subtitle2" gutterBottom>Itens do Orçamento</Typography>
           {fields.map((field, idx) => (
@@ -98,20 +94,14 @@ function OrcamentoForm({ open, onClose, initial }) {
           </Button>
 
           <Divider sx={{ my: 2 }} />
-          <Grid container spacing={2} justifyContent="flex-end">
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth label="Desconto (R$)" type="number" inputProps={{ step: '0.01' }} {...register('desconto')} />
-            </Grid>
-            <Grid item xs={12}>
-              <Box sx={{ textAlign: 'right' }}>
-                <Typography variant="body2">Subtotal: {formatCurrency(subtotal)}</Typography>
-                <Typography variant="h6" color="primary">Total: <strong>{formatCurrency(total)}</strong></Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField fullWidth label="Observações" multiline rows={2} {...register('observacoes')} />
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
+            <TextField size="medium" label="Desconto (R$)" type="number" inputProps={{ step: '0.01' }} {...register('desconto')} sx={{ width: '33%' }} />
+          </Box>
+          <Box sx={{ textAlign: 'right', mb: 1 }}>
+            <Typography variant="body2">Subtotal: {formatCurrency(subtotal)}</Typography>
+            <Typography variant="h6" color="primary">Total: <strong>{formatCurrency(total)}</strong></Typography>
+          </Box>
+          <TextField fullWidth size="medium" label="Observações" multiline rows={2} {...register('observacoes')} />
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancelar</Button>

@@ -136,31 +136,18 @@ export default function PMOC() {
       )}
 
       {/* KPIs */}
-      <Grid container spacing={2.5} sx={{ mb: 3 }}>
-        <Grid item xs={6} sm={4} md={2}>
-          <StatCard title="Contratos Ativos" value={stats.ativos} icon={<ArticleIcon />} color="primary" subtitle="+30 dias" onClick={() => navigate('/pmoc/contratos')} />
-        </Grid>
-        <Grid item xs={6} sm={4} md={2}>
-          <StatCard title="Contratos Vencidos" value={stats.vencidos} icon={<ErrorOutlineIcon />} color="error" subtitle="Renovar" onClick={() => navigate('/pmoc/contratos')} />
-        </Grid>
-        <Grid item xs={6} sm={4} md={2}>
-          <StatCard title="Próx. Vencimento" value={stats.proximosVencer} icon={<WarningAmberIcon />} color="warning" subtitle="≤ 30 dias" onClick={() => navigate('/pmoc/contratos')} />
-        </Grid>
-        <Grid item xs={6} sm={4} md={2}>
-          <StatCard title="Equipamentos" value={equipamentosPMOC.length} icon={<AcUnitIcon />} color="info" subtitle="Cadastrados" onClick={() => navigate('/pmoc/equipamentos')} />
-        </Grid>
-        <Grid item xs={6} sm={4} md={2}>
-          <StatCard title="Agendadas" value={stats.programadas} icon={<CalendarMonthIcon />} color="secondary" subtitle="Manutenções" onClick={() => navigate('/pmoc/planejamento')} />
-        </Grid>
-        <Grid item xs={6} sm={4} md={2}>
-          <StatCard title="Realizadas" value={stats.realizadas} icon={<CheckCircleIcon />} color="success" subtitle="Concluídas" />
-        </Grid>
-      </Grid>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)', md: 'repeat(6, 1fr)' }, gap: 2.5, mb: 3 }}>
+        <StatCard title="Contratos Ativos" value={stats.ativos} icon={<ArticleIcon />} color="primary" subtitle="+30 dias" onClick={() => navigate('/pmoc/contratos')} />
+        <StatCard title="Contratos Vencidos" value={stats.vencidos} icon={<ErrorOutlineIcon />} color="error" subtitle="Renovar" onClick={() => navigate('/pmoc/contratos')} />
+        <StatCard title="Próx. Vencimento" value={stats.proximosVencer} icon={<WarningAmberIcon />} color="warning" subtitle="≤ 30 dias" onClick={() => navigate('/pmoc/contratos')} />
+        <StatCard title="Equipamentos" value={equipamentosPMOC.length} icon={<AcUnitIcon />} color="info" subtitle="Cadastrados" onClick={() => navigate('/pmoc/equipamentos')} />
+        <StatCard title="Agendadas" value={stats.programadas} icon={<CalendarMonthIcon />} color="secondary" subtitle="Manutenções" onClick={() => navigate('/pmoc/planejamento')} />
+        <StatCard title="Realizadas" value={stats.realizadas} icon={<CheckCircleIcon />} color="success" subtitle="Concluídas" />
+      </Box>
 
-      <Grid container spacing={2.5} sx={{ mb: 3 }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '2fr 1fr' }, gap: 2.5, mb: 3 }}>
         {/* Gráfico manutenções */}
-        <Grid item xs={12} md={8}>
-          <Card sx={{ height: '100%' }}>
+        <Card sx={{ height: '100%' }}>
             <CardContent>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                 <Box>
@@ -190,11 +177,8 @@ export default function PMOC() {
               </ResponsiveContainer>
             </CardContent>
           </Card>
-        </Grid>
-
         {/* Receita recorrente */}
-        <Grid item xs={12} md={4}>
-          <Card sx={{ height: '100%' }}>
+        <Card sx={{ height: '100%' }}>
             <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <Typography variant="h6" fontWeight={700} gutterBottom>Resumo Financeiro</Typography>
               <Divider sx={{ mb: 2 }} />
@@ -237,8 +221,7 @@ export default function PMOC() {
               </Stack>
             </CardContent>
           </Card>
-        </Grid>
-      </Grid>
+      </Box>
 
       {/* Próximas manutenções */}
       <Card>

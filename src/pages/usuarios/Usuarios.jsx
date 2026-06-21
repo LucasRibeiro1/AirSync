@@ -38,26 +38,22 @@ function UsuarioForm({ open, onClose, initial }) {
       <DialogTitle>{initial?.id ? 'Editar Usuário' : 'Novo Usuário'}</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12}><TextField fullWidth label="Nome *" {...register('nome', { required: true })} error={!!errors.nome} /></Grid>
-            <Grid item xs={12}><TextField fullWidth label="E-mail *" type="email" {...register('email', { required: true })} error={!!errors.email} /></Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller name="perfil" control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth><InputLabel>Perfil</InputLabel>
-                    <Select {...field} label="Perfil">
-                      {perfis.map((p) => <MenuItem key={p} value={p}>{p}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller name="ativo" control={control}
-                render={({ field }) => (
-                  <FormControlLabel control={<Switch checked={!!field.value} onChange={(e) => field.onChange(e.target.checked)} />} label="Usuário Ativo" />
-                )} />
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <TextField fullWidth size="medium" label="Nome *" {...register('nome', { required: true })} error={!!errors.nome} sx={{ gridColumn: 'span 2' }} />
+            <TextField fullWidth size="medium" label="E-mail *" type="email" {...register('email', { required: true })} error={!!errors.email} sx={{ gridColumn: 'span 2' }} />
+            <Controller name="perfil" control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium"><InputLabel>Perfil</InputLabel>
+                  <Select {...field} label="Perfil">
+                    {perfis.map((p) => <MenuItem key={p} value={p}>{p}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )} />
+            <Controller name="ativo" control={control}
+              render={({ field }) => (
+                <FormControlLabel control={<Switch checked={!!field.value} onChange={(e) => field.onChange(e.target.checked)} />} label="Usuário Ativo" />
+              )} />
+          </Box>
 
           {perfil && (
             <Box sx={{ mt: 2 }}>

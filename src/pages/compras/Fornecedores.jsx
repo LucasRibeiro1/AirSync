@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   Box, Card, CardContent, Typography, IconButton, Table, TableBody,
   TableCell, TableContainer, TableHead, TableRow, TextField, InputAdornment,
-  Dialog, DialogTitle, DialogContent, DialogActions, Button, Grid,
+  Dialog, DialogTitle, DialogContent, DialogActions, Button,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -27,13 +27,13 @@ function FornecedorForm({ open, onClose, initial }) {
       <DialogTitle>{initial?.id ? 'Editar Fornecedor' : 'Novo Fornecedor'}</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12}><TextField fullWidth label="Razão Social *" {...register('razaoSocial', { required: true })} error={!!errors.razaoSocial} /></Grid>
-            <Grid item xs={12} sm={6}><TextField fullWidth label="Nome Fantasia" {...register('nomeFantasia')} /></Grid>
-            <Grid item xs={12} sm={6}><TextField fullWidth label="CNPJ" {...register('cnpj')} /></Grid>
-            <Grid item xs={12} sm={6}><TextField fullWidth label="Telefone" {...register('telefone')} /></Grid>
-            <Grid item xs={12} sm={6}><TextField fullWidth label="E-mail" type="email" {...register('email')} /></Grid>
-          </Grid>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <TextField fullWidth size="medium" label="Razão Social *" {...register('razaoSocial', { required: true })} error={!!errors.razaoSocial} sx={{ gridColumn: 'span 2' }} />
+            <TextField fullWidth size="medium" label="Nome Fantasia" {...register('nomeFantasia')} />
+            <TextField fullWidth size="medium" label="CNPJ" {...register('cnpj')} />
+            <TextField fullWidth size="medium" label="Telefone" {...register('telefone')} />
+            <TextField fullWidth size="medium" label="E-mail" type="email" {...register('email')} />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancelar</Button>

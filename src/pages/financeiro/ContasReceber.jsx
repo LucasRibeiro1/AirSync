@@ -34,20 +34,18 @@ function ContaForm({ open, onClose, initial }) {
       <DialogTitle>{initial?.id ? 'Editar Conta' : 'Nova Conta a Receber'}</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12}><TextField fullWidth label="Cliente *" {...register('clienteNome', { required: true })} error={!!errors.clienteNome} /></Grid>
-            <Grid item xs={12} sm={6}><TextField fullWidth label="Documento / Referência" {...register('documento')} /></Grid>
-            <Grid item xs={12} sm={6}><TextField fullWidth label="Vencimento" type="date" InputLabelProps={{ shrink: true }} {...register('vencimento')} /></Grid>
-            <Grid item xs={12} sm={6}><TextField fullWidth label="Valor (R$) *" type="number" inputProps={{ step: '0.01' }} {...register('valor', { required: true })} /></Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller name="situacao" control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth><InputLabel>Situação</InputLabel>
-                    <Select {...field} label="Situação">{STATUS.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}</Select>
-                  </FormControl>
-                )} />
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <TextField fullWidth size="medium" label="Cliente *" {...register('clienteNome', { required: true })} error={!!errors.clienteNome} sx={{ gridColumn: 'span 2' }} />
+            <TextField fullWidth size="medium" label="Documento / Referência" {...register('documento')} />
+            <TextField fullWidth size="medium" label="Vencimento" type="date" InputLabelProps={{ shrink: true }} {...register('vencimento')} />
+            <TextField fullWidth size="medium" label="Valor (R$) *" type="number" inputProps={{ step: '0.01' }} {...register('valor', { required: true })} />
+            <Controller name="situacao" control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium"><InputLabel>Situação</InputLabel>
+                  <Select {...field} label="Situação">{STATUS.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}</Select>
+                </FormControl>
+              )} />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancelar</Button>

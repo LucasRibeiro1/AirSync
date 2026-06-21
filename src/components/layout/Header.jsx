@@ -22,6 +22,7 @@ import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import SettingsIcon from '@mui/icons-material/Settings';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../store';
 
 export const ICONES_MAP = {
@@ -42,8 +43,15 @@ export const ICONES_MAP = {
 
 export default function Header({ onMenuClick }) {
   const theme = useTheme();
-  const { usuario, tema, setTema, empresa } = useStore();
+  const navigate = useNavigate();
+  const { authUser, logout, tema, setTema, empresa } = useStore();
   const [anchor, setAnchor] = useState(null);
+
+  const handleLogout = () => {
+    setAnchor(null);
+    logout();
+    navigate('/login', { replace: true });
+  };
 
   const IconeEmpresa = () => {
     if (empresa.logo) {
@@ -138,7 +146,7 @@ export default function Header({ onMenuClick }) {
         <Tooltip title="Minha conta">
           <IconButton onClick={(e) => setAnchor(e.currentTarget)} sx={{ ml: 0.5, p: 0.5 }}>
             <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main', fontSize: 13, fontWeight: 700 }}>
-              {usuario.nome.charAt(0)}
+              {authUser?.nome?.charAt(0) || '?'}
             </Avatar>
           </IconButton>
         </Tooltip>
@@ -153,14 +161,14 @@ export default function Header({ onMenuClick }) {
         PaperProps={{ sx: { mt: 0.5, minWidth: 200 } }}
       >
         <Box sx={{ px: 2, py: 1.5 }}>
-          <Typography variant="body2" fontWeight={600}>{usuario.nome}</Typography>
-          <Typography variant="caption" color="text.secondary">{usuario.email}</Typography>
+          <Typography variant="body2" fontWeight={600}>{authUser?.nome}</Typography>
+          <Typography variant="caption" color="text.secondary">{authUser?.email}</Typography>
           <Box sx={{ mt: 0.5 }}>
             <Typography
               variant="caption"
               sx={{ bgcolor: 'primary.main', color: 'white', px: 1, py: 0.25, borderRadius: 4, fontSize: '0.65rem' }}
             >
-              {usuario.perfil}
+              {authUser?.perfil}
             </Typography>
           </Box>
         </Box>
@@ -169,7 +177,7 @@ export default function Header({ onMenuClick }) {
           <ListItemIcon><PersonIcon fontSize="small" /></ListItemIcon>
           Meu Perfil
         </MenuItem>
-        <MenuItem onClick={() => setAnchor(null)} dense sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleLogout} dense sx={{ color: 'error.main' }}>
           <ListItemIcon><LogoutIcon fontSize="small" color="error" /></ListItemIcon>
           Sair
         </MenuItem>

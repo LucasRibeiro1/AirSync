@@ -136,7 +136,7 @@ function OSItem({ os }) {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { agendamentos, ordens, contasReceber, contasPagar, contratosPMOC, usuario } = useStore();
+  const { agendamentos, ordens, contasReceber, contasPagar, contratosPMOC, authUser: usuario } = useStore();
   const theme = useTheme();
   const today = new Date().toISOString().split('T')[0];
 

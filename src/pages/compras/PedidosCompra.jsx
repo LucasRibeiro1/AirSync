@@ -35,31 +35,25 @@ function PedidoForm({ open, onClose }) {
       <DialogTitle>Novo Pedido de Compra</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent dividers>
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12} sm={6}>
-              <Controller name="fornecedorId" control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth><InputLabel>Fornecedor</InputLabel>
-                    <Select {...field} label="Fornecedor">
-                      {fornecedores.map((f) => <MenuItem key={f.id} value={f.id}>{f.nomeFantasia || f.razaoSocial}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )} />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <TextField fullWidth label="Data" type="date" InputLabelProps={{ shrink: true }} {...register('data')} />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <Controller name="status" control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth><InputLabel>Status</InputLabel>
-                    <Select {...field} label="Status">
-                      {STATUS.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )} />
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 2, mb: 2 }}>
+            <Controller name="fornecedorId" control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium"><InputLabel>Fornecedor</InputLabel>
+                  <Select {...field} label="Fornecedor">
+                    {fornecedores.map((f) => <MenuItem key={f.id} value={f.id}>{f.nomeFantasia || f.razaoSocial}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )} />
+            <TextField fullWidth size="medium" label="Data" type="date" InputLabelProps={{ shrink: true }} {...register('data')} />
+            <Controller name="status" control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium"><InputLabel>Status</InputLabel>
+                  <Select {...field} label="Status">
+                    {STATUS.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )} />
+          </Box>
 
           <Typography variant="subtitle2" gutterBottom>Itens do Pedido</Typography>
           {fields.map((field, idx) => (

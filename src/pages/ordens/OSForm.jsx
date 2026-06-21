@@ -1,5 +1,5 @@
 import {
-  Dialog, DialogTitle, DialogContent, DialogActions, Button, Grid,
+  Dialog, DialogTitle, DialogContent, DialogActions, Button,
   TextField, MenuItem, FormControl, InputLabel, Select, Typography,
   Checkbox, FormControlLabel, Divider, Box,
 } from '@mui/material';
@@ -54,149 +54,122 @@ export default function OSForm({ open, onClose, initial }) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent dividers>
           <Typography variant="subtitle2" color="primary" gutterBottom>Informações Gerais</Typography>
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12} sm={6}>
-              <Controller
-                name="clienteId"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <FormControl fullWidth error={!!errors.clienteId}>
-                    <InputLabel>Cliente *</InputLabel>
-                    <Select {...field} label="Cliente *">
-                      {clientes.map((c) => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller
-                name="tecnicoId"
-                control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth>
-                    <InputLabel>Técnico</InputLabel>
-                    <Select {...field} label="Técnico">
-                      <MenuItem value="">Nenhum</MenuItem>
-                      {tecnicos.map((t) => <MenuItem key={t.id} value={t.id}>{t.nome}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller
-                name="tipo"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <FormControl fullWidth error={!!errors.tipo}>
-                    <InputLabel>Tipo de Serviço *</InputLabel>
-                    <Select {...field} label="Tipo de Serviço *">
-                      {tiposAtendimento.map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller
-                name="status"
-                control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth>
-                    <InputLabel>Status</InputLabel>
-                    <Select {...field} label="Status">
-                      {statusOptions.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mb: 3 }}>
+            <Controller
+              name="clienteId"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium" error={!!errors.clienteId}>
+                  <InputLabel>Cliente *</InputLabel>
+                  <Select {...field} label="Cliente *">
+                    {clientes.map((c) => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )}
+            />
+            <Controller
+              name="tecnicoId"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium">
+                  <InputLabel>Técnico</InputLabel>
+                  <Select {...field} label="Técnico">
+                    <MenuItem value="">Nenhum</MenuItem>
+                    {tecnicos.map((t) => <MenuItem key={t.id} value={t.id}>{t.nome}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )}
+            />
+            <Controller
+              name="tipo"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium" error={!!errors.tipo}>
+                  <InputLabel>Tipo de Serviço *</InputLabel>
+                  <Select {...field} label="Tipo de Serviço *">
+                    {tiposAtendimento.map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )}
+            />
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium">
+                  <InputLabel>Status</InputLabel>
+                  <Select {...field} label="Status">
+                    {statusOptions.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )}
+            />
+          </Box>
 
           <Divider sx={{ mb: 2 }} />
           <Typography variant="subtitle2" color="primary" gutterBottom>Dados do Equipamento</Typography>
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Equipamento" {...register('equipamento')} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller
-                name="marca"
-                control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth>
-                    <InputLabel>Marca</InputLabel>
-                    <Select {...field} label="Marca">
-                      {marcas.map((m) => <MenuItem key={m} value={m}>{m}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth label="Modelo" {...register('modelo')} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Controller
-                name="btus"
-                control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth>
-                    <InputLabel>BTUs</InputLabel>
-                    <Select {...field} label="BTUs">
-                      {btusOptions.map((b) => <MenuItem key={b} value={b}>{b} BTUs</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth label="Local de Instalação" {...register('localInstalacao')} />
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 2, mb: 3 }}>
+            <TextField fullWidth size="medium" label="Equipamento" {...register('equipamento')} />
+            <Controller
+              name="marca"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium">
+                  <InputLabel>Marca</InputLabel>
+                  <Select {...field} label="Marca">
+                    {marcas.map((m) => <MenuItem key={m} value={m}>{m}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )}
+            />
+            <TextField fullWidth size="medium" label="Modelo" {...register('modelo')} />
+            <Controller
+              name="btus"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium">
+                  <InputLabel>BTUs</InputLabel>
+                  <Select {...field} label="BTUs">
+                    {btusOptions.map((b) => <MenuItem key={b} value={b}>{b} BTUs</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )}
+            />
+            <TextField fullWidth size="medium" label="Local de Instalação" {...register('localInstalacao')}
+              sx={{ gridColumn: 'span 2' }} />
+          </Box>
 
           {tipo && (
             <>
               <Divider sx={{ mb: 2 }} />
               <Typography variant="subtitle2" color="primary" gutterBottom>Checklist Técnico</Typography>
-              <Grid container spacing={1} sx={{ mb: 2 }}>
+              <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0.5, mb: 2 }}>
                 {checklistItems.map((item) => (
-                  <Grid item xs={12} sm={6} key={item}>
-                    <FormControlLabel
-                      control={<Checkbox checked={!!checklist[item]} onChange={() => toggleCheck(item)} size="small" />}
-                      label={<Typography variant="body2">{item}</Typography>}
-                    />
-                  </Grid>
+                  <FormControlLabel
+                    key={item}
+                    control={<Checkbox checked={!!checklist[item]} onChange={() => toggleCheck(item)} size="small" />}
+                    label={<Typography variant="body2">{item}</Typography>}
+                  />
                 ))}
-              </Grid>
+              </Box>
             </>
           )}
 
           <Divider sx={{ mb: 2 }} />
           <Typography variant="subtitle2" color="primary" gutterBottom>Relatório Técnico</Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField fullWidth label="Problema Encontrado" multiline rows={2} {...register('problema')} />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField fullWidth label="Serviço Executado" multiline rows={2} {...register('servicoExecutado')} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Peças Utilizadas" {...register('pecasUtilizadas')} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Materiais Utilizados" {...register('materiais')} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Tempo Gasto" placeholder="Ex: 2h30min" {...register('tempoGasto')} />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField fullWidth label="Observações Técnicas" multiline rows={2} {...register('observacoes')} />
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <TextField fullWidth size="medium" label="Problema Encontrado" multiline rows={2}
+              {...register('problema')} sx={{ gridColumn: 'span 2' }} />
+            <TextField fullWidth size="medium" label="Serviço Executado" multiline rows={2}
+              {...register('servicoExecutado')} sx={{ gridColumn: 'span 2' }} />
+            <TextField fullWidth size="medium" label="Peças Utilizadas" {...register('pecasUtilizadas')} />
+            <TextField fullWidth size="medium" label="Materiais Utilizados" {...register('materiais')} />
+            <TextField fullWidth size="medium" label="Tempo Gasto" placeholder="Ex: 2h30min" {...register('tempoGasto')} />
+            <TextField fullWidth size="medium" label="Observações Técnicas" multiline rows={2}
+              {...register('observacoes')} sx={{ gridColumn: 'span 2' }} />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancelar</Button>

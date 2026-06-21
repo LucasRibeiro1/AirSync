@@ -312,49 +312,39 @@ export default function Checklist() {
             <Box sx={{ p: 3 }}>
               {/* Step 0: Identificação */}
               {step === 0 && (
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField select fullWidth size="small" label="Tipo de Checklist"
-                      value={form.tipo} onChange={(e) => handleTipoChange(e.target.value)}>
-                      {Object.keys(TIPOS_CHECKLIST).map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField select fullWidth size="small" label="OS Vinculada"
-                      value={form.ordemId || ''} onChange={handleOSChange}>
-                      <MenuItem value="">Sem OS</MenuItem>
-                      {ordens.map((o) => <MenuItem key={o.id} value={o.id}>{o.numero} — {o.clienteNome}</MenuItem>)}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField select fullWidth size="small" label="Cliente"
-                      value={form.clienteId || ''}
-                      onChange={(e) => {
-                        const cl = clientes.find((c) => c.id === Number(e.target.value));
-                        setForm((f) => ({ ...f, clienteId: Number(e.target.value), clienteNome: cl?.nome || '' }));
-                      }}>
-                      <MenuItem value="">Selecionar</MenuItem>
-                      {clientes.map((c) => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField select fullWidth size="small" label="Equipamento"
-                      value={form.equipamentoId || ''} onChange={handleEquipamentoChange}>
-                      <MenuItem value="">Selecionar</MenuItem>
-                      {equipamentosPMOC.map((e) => (
-                        <MenuItem key={e.id} value={e.id}>{e.marca} {e.modelo} — {e.localInstalacao}</MenuItem>
-                      ))}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField select fullWidth size="small" label="Técnico Responsável"
-                      value={form.tecnicoNome}
-                      onChange={(e) => setForm((f) => ({ ...f, tecnicoNome: e.target.value }))}>
-                      <MenuItem value="">Selecionar</MenuItem>
-                      {tecnicos.map((t) => <MenuItem key={t.id} value={t.nome}>{t.nome}</MenuItem>)}
-                    </TextField>
-                  </Grid>
-                </Grid>
+                <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+                  <TextField select fullWidth size="medium" label="Tipo de Checklist"
+                    value={form.tipo} onChange={(e) => handleTipoChange(e.target.value)}>
+                    {Object.keys(TIPOS_CHECKLIST).map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
+                  </TextField>
+                  <TextField select fullWidth size="medium" label="OS Vinculada"
+                    value={form.ordemId || ''} onChange={handleOSChange}>
+                    <MenuItem value="">Sem OS</MenuItem>
+                    {ordens.map((o) => <MenuItem key={o.id} value={o.id}>{o.numero} — {o.clienteNome}</MenuItem>)}
+                  </TextField>
+                  <TextField select fullWidth size="medium" label="Cliente"
+                    value={form.clienteId || ''}
+                    onChange={(e) => {
+                      const cl = clientes.find((c) => c.id === Number(e.target.value));
+                      setForm((f) => ({ ...f, clienteId: Number(e.target.value), clienteNome: cl?.nome || '' }));
+                    }}>
+                    <MenuItem value="">Selecionar</MenuItem>
+                    {clientes.map((c) => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}
+                  </TextField>
+                  <TextField select fullWidth size="medium" label="Equipamento"
+                    value={form.equipamentoId || ''} onChange={handleEquipamentoChange}>
+                    <MenuItem value="">Selecionar</MenuItem>
+                    {equipamentosPMOC.map((e) => (
+                      <MenuItem key={e.id} value={e.id}>{e.marca} {e.modelo} — {e.localInstalacao}</MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField select fullWidth size="medium" label="Técnico Responsável"
+                    value={form.tecnicoNome}
+                    onChange={(e) => setForm((f) => ({ ...f, tecnicoNome: e.target.value }))}>
+                    <MenuItem value="">Selecionar</MenuItem>
+                    {tecnicos.map((t) => <MenuItem key={t.id} value={t.nome}>{t.nome}</MenuItem>)}
+                  </TextField>
+                </Box>
               )}
 
               {/* Step 1: Checklist */}
@@ -401,25 +391,21 @@ export default function Checklist() {
 
               {/* Step 2: Evidências e Assinaturas */}
               {step === 2 && (
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField fullWidth size="small" label="Observações Gerais" multiline rows={3}
-                      value={form.observacoes}
-                      onChange={(e) => setForm((f) => ({ ...f, observacoes: e.target.value }))} />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField fullWidth size="small" label="Recomendações Técnicas" multiline rows={2}
-                      value={form.recomendacoes}
-                      onChange={(e) => setForm((f) => ({ ...f, recomendacoes: e.target.value }))} />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField fullWidth size="small" label="Próxima Manutenção Sugerida" type="date"
-                      value={form.proximaManutencao}
-                      onChange={(e) => setForm((f) => ({ ...f, proximaManutencao: e.target.value }))}
-                      InputLabelProps={{ shrink: true }} />
-                  </Grid>
+                <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+                  <TextField fullWidth size="medium" label="Observações Gerais" multiline rows={3}
+                    value={form.observacoes}
+                    onChange={(e) => setForm((f) => ({ ...f, observacoes: e.target.value }))}
+                    sx={{ gridColumn: 'span 2' }} />
+                  <TextField fullWidth size="medium" label="Recomendações Técnicas" multiline rows={2}
+                    value={form.recomendacoes}
+                    onChange={(e) => setForm((f) => ({ ...f, recomendacoes: e.target.value }))}
+                    sx={{ gridColumn: 'span 2' }} />
+                  <TextField fullWidth size="medium" label="Próxima Manutenção Sugerida" type="date"
+                    value={form.proximaManutencao}
+                    onChange={(e) => setForm((f) => ({ ...f, proximaManutencao: e.target.value }))}
+                    InputLabelProps={{ shrink: true }} />
 
-                  <Grid item xs={12}>
+                  <Box sx={{ gridColumn: 'span 2' }}>
                     <Divider sx={{ my: 1 }} />
                     <Typography variant="subtitle2" color="text.secondary" gutterBottom>
                       Evidências Fotográficas
@@ -429,31 +415,25 @@ export default function Checklist() {
                         Arraste fotos ou vídeos aqui · Upload de evidências (em implementação)
                       </Typography>
                     </Paper>
-                  </Grid>
+                  </Box>
 
-                  <Grid item xs={12}>
+                  <Box sx={{ gridColumn: 'span 2' }}>
                     <Divider sx={{ my: 1 }} />
                     <Typography variant="subtitle2" color="text.secondary" gutterBottom>Assinaturas</Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField fullWidth size="small" label="Nome do Técnico (assinatura)"
-                      value={form.assinaturaTecnico}
-                      onChange={(e) => setForm((f) => ({ ...f, assinaturaTecnico: e.target.value }))}
-                      helperText="Digite o nome completo para assinar" />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField fullWidth size="small" label="Nome do Cliente (assinatura)"
-                      value={form.assinaturaCliente}
-                      onChange={(e) => setForm((f) => ({ ...f, assinaturaCliente: e.target.value }))}
-                      helperText="Digite o nome completo para assinar" />
-                  </Grid>
+                  </Box>
+                  <TextField fullWidth size="medium" label="Nome do Técnico (assinatura)"
+                    value={form.assinaturaTecnico}
+                    onChange={(e) => setForm((f) => ({ ...f, assinaturaTecnico: e.target.value }))}
+                    helperText="Digite o nome completo para assinar" />
+                  <TextField fullWidth size="medium" label="Nome do Cliente (assinatura)"
+                    value={form.assinaturaCliente}
+                    onChange={(e) => setForm((f) => ({ ...f, assinaturaCliente: e.target.value }))}
+                    helperText="Digite o nome completo para assinar" />
 
-                  <Grid item xs={12}>
-                    <Alert severity="info" icon={<AssignmentTurnedInIcon />}>
-                      Ao concluir, o relatório PDF será gerado automaticamente com todos os dados, itens e assinaturas.
-                    </Alert>
-                  </Grid>
-                </Grid>
+                  <Alert severity="info" icon={<AssignmentTurnedInIcon />} sx={{ gridColumn: 'span 2' }}>
+                    Ao concluir, o relatório PDF será gerado automaticamente com todos os dados, itens e assinaturas.
+                  </Alert>
+                </Box>
               )}
             </Box>
           )}

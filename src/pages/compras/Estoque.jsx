@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   Box, Card, CardContent, Typography, IconButton, Table, TableBody,
   TableCell, TableContainer, TableHead, TableRow, TextField, InputAdornment,
-  Dialog, DialogTitle, DialogContent, DialogActions, Button, Grid,
+  Dialog, DialogTitle, DialogContent, DialogActions, Button,
   Chip, FormControl, InputLabel, Select, MenuItem,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -34,32 +34,30 @@ function ProdutoForm({ open, onClose, initial }) {
       <DialogTitle>{initial?.id ? 'Editar Produto' : 'Novo Produto'}</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12}><TextField fullWidth label="Nome *" {...register('nome', { required: true })} error={!!errors.nome} /></Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller name="categoria" control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth><InputLabel>Categoria</InputLabel>
-                    <Select {...field} label="Categoria">
-                      {categorias.map((c) => <MenuItem key={c} value={c}>{c}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller name="unidade" control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth><InputLabel>Unidade</InputLabel>
-                    <Select {...field} label="Unidade">
-                      {unidades.map((u) => <MenuItem key={u} value={u}>{u}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                )} />
-            </Grid>
-            <Grid item xs={12} sm={4}><TextField fullWidth label="Quantidade" type="number" {...register('quantidade')} /></Grid>
-            <Grid item xs={12} sm={4}><TextField fullWidth label="Estoque Mínimo" type="number" {...register('estoqueMinimo')} /></Grid>
-            <Grid item xs={12} sm={4}><TextField fullWidth label="Preço (R$)" type="number" inputProps={{ step: '0.01' }} {...register('preco')} /></Grid>
-          </Grid>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <TextField fullWidth size="medium" label="Nome *" {...register('nome', { required: true })} error={!!errors.nome} sx={{ gridColumn: 'span 2' }} />
+            <Controller name="categoria" control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium"><InputLabel>Categoria</InputLabel>
+                  <Select {...field} label="Categoria">
+                    {categorias.map((c) => <MenuItem key={c} value={c}>{c}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )} />
+            <Controller name="unidade" control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="medium"><InputLabel>Unidade</InputLabel>
+                  <Select {...field} label="Unidade">
+                    {unidades.map((u) => <MenuItem key={u} value={u}>{u}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              )} />
+          </Box>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 2, mt: 2 }}>
+            <TextField fullWidth size="medium" label="Quantidade" type="number" {...register('quantidade')} />
+            <TextField fullWidth size="medium" label="Estoque Mínimo" type="number" {...register('estoqueMinimo')} />
+            <TextField fullWidth size="medium" label="Preço (R$)" type="number" inputProps={{ step: '0.01' }} {...register('preco')} />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancelar</Button>

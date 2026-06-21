@@ -40,13 +40,24 @@ export default function StatCard({ title, value, subtitle, icon, color = 'primar
       }} />
 
       <CardContent sx={{ p: 2.5, '&:last-child': { pb: 2.5 } }}>
-        <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
+          {/* Icon container */}
+          <Box sx={{
+            width: 34, height: 34, borderRadius: 1.5, flexShrink: 0,
+            background: `linear-gradient(135deg, ${main} 0%, ${alpha(light, 0.75)} 100%)`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#fff',
+            boxShadow: `0 4px 14px ${alpha(main, 0.35)}`,
+            '& svg': { fontSize: 16 },
+          }}>
+            {icon}
+          </Box>
+
           <Box sx={{ minWidth: 0, flex: 1 }}>
             <Typography
               variant="caption"
               color="text.secondary"
-              sx={{ fontWeight: 600, fontSize: '0.72rem', letterSpacing: '0.04em', textTransform: 'uppercase' }}
-              noWrap
+              sx={{ fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.04em', textTransform: 'uppercase', lineHeight: 1.3 }}
             >
               {title}
             </Typography>
@@ -86,18 +97,6 @@ export default function StatCard({ title, value, subtitle, icon, color = 'primar
                 </>
               )}
             </Box>
-          </Box>
-
-          {/* Icon container */}
-          <Box sx={{
-            width: 40, height: 40, borderRadius: 2, flexShrink: 0,
-            background: `linear-gradient(135deg, ${main} 0%, ${alpha(light, 0.75)} 100%)`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff',
-            boxShadow: `0 4px 14px ${alpha(main, 0.35)}`,
-            '& svg': { fontSize: 18 },
-          }}>
-            {icon}
           </Box>
         </Box>
       </CardContent>

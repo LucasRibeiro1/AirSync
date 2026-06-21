@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   Box, Card, CardContent, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, IconButton, Chip, Button, Dialog, DialogTitle,
-  DialogContent, DialogActions, TextField, MenuItem, Grid, Typography,
+  DialogContent, DialogActions, TextField, MenuItem, Typography,
   Tooltip, InputAdornment, Alert, Stack,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -301,70 +301,57 @@ export default function PMOCPlanejamento() {
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>{editing ? 'Editar Manutenção' : 'Agendar Manutenção'}</DialogTitle>
         <DialogContent dividers>
-          <Grid container spacing={2} sx={{ pt: 1 }}>
-            <Grid item xs={12} sm={6}>
-              <TextField select fullWidth size="small" label="Contrato PMOC"
-                value={form.contratoPMOCId || ''} onChange={handleContratoChange}
-              >
-                <MenuItem value="">Nenhum</MenuItem>
-                {contratosPMOC.map((c) => (
-                  <MenuItem key={c.id} value={c.id}>{c.numero} — {c.clienteNome}</MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField select fullWidth size="small" label="Equipamento"
-                value={form.equipamentoId || ''} onChange={handleEquipamentoChange}
-              >
-                <MenuItem value="">Nenhum</MenuItem>
-                {equipamentosFiltrados.map((e) => (
-                  <MenuItem key={e.id} value={e.id}>{e.marca} {e.modelo} — {e.localInstalacao}</MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField select fullWidth size="small" label="Tipo"
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <TextField select fullWidth size="medium" label="Contrato PMOC"
+              value={form.contratoPMOCId || ''} onChange={handleContratoChange}
+            >
+              <MenuItem value="">Nenhum</MenuItem>
+              {contratosPMOC.map((c) => (
+                <MenuItem key={c.id} value={c.id}>{c.numero} — {c.clienteNome}</MenuItem>
+              ))}
+            </TextField>
+            <TextField select fullWidth size="medium" label="Equipamento"
+              value={form.equipamentoId || ''} onChange={handleEquipamentoChange}
+            >
+              <MenuItem value="">Nenhum</MenuItem>
+              {equipamentosFiltrados.map((e) => (
+                <MenuItem key={e.id} value={e.id}>{e.marca} {e.modelo} — {e.localInstalacao}</MenuItem>
+              ))}
+            </TextField>
+            <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 2, gridColumn: 'span 2' }}>
+              <TextField select fullWidth size="medium" label="Tipo"
                 value={form.tipo} onChange={(e) => setForm((f) => ({ ...f, tipo: e.target.value }))}
               >
                 {['Preventiva', 'Corretiva', 'Instalação', 'Higienização'].map((t) => (
                   <MenuItem key={t} value={t}>{t}</MenuItem>
                 ))}
               </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth size="small" label="Data Agendada *" type="date"
+              <TextField fullWidth size="medium" label="Data Agendada *" type="date"
                 value={form.dataAgendada} onChange={(e) => setForm((f) => ({ ...f, dataAgendada: e.target.value }))}
                 InputLabelProps={{ shrink: true }} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField select fullWidth size="small" label="Técnico Responsável"
+              <TextField select fullWidth size="medium" label="Técnico Responsável"
                 value={form.tecnicoNome} onChange={(e) => setForm((f) => ({ ...f, tecnicoNome: e.target.value }))}
               >
                 <MenuItem value="">A definir</MenuItem>
                 {tecnicos.map((t) => <MenuItem key={t.id} value={t.nome}>{t.nome}</MenuItem>)}
               </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField select fullWidth size="small" label="Status"
-                value={form.status} onChange={(e) => setForm((f) => ({ ...f, status: e.target.value }))}
-              >
-                {['Agendada', 'Em Andamento', 'Realizada', 'Cancelada'].map((s) => (
-                  <MenuItem key={s} value={s}>{s}</MenuItem>
-                ))}
-              </TextField>
-            </Grid>
+            </Box>
+            <TextField select fullWidth size="medium" label="Status"
+              value={form.status} onChange={(e) => setForm((f) => ({ ...f, status: e.target.value }))}
+            >
+              {['Agendada', 'Em Andamento', 'Realizada', 'Cancelada'].map((s) => (
+                <MenuItem key={s} value={s}>{s}</MenuItem>
+              ))}
+            </TextField>
             {form.status === 'Realizada' && (
-              <Grid item xs={12} sm={4}>
-                <TextField fullWidth size="small" label="Data de Realização" type="date"
-                  value={form.dataRealizacao || ''} onChange={(e) => setForm((f) => ({ ...f, dataRealizacao: e.target.value }))}
-                  InputLabelProps={{ shrink: true }} />
-              </Grid>
+              <TextField fullWidth size="medium" label="Data de Realização" type="date"
+                value={form.dataRealizacao || ''} onChange={(e) => setForm((f) => ({ ...f, dataRealizacao: e.target.value }))}
+                InputLabelProps={{ shrink: true }} />
             )}
-            <Grid item xs={12}>
-              <TextField fullWidth size="small" label="Observações" multiline rows={2}
-                value={form.observacoes} onChange={(e) => setForm((f) => ({ ...f, observacoes: e.target.value }))} />
-            </Grid>
-          </Grid>
+            <TextField fullWidth size="medium" label="Observações" multiline rows={2}
+              value={form.observacoes} onChange={(e) => setForm((f) => ({ ...f, observacoes: e.target.value }))}
+              sx={{ gridColumn: 'span 2' }} />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancelar</Button>
