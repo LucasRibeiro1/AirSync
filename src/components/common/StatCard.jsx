@@ -59,42 +59,43 @@ export default function StatCard({ title, value, subtitle, icon, color = 'primar
               {value}
             </Typography>
 
-            {subtitle && (
-              <Typography variant="caption" color="text.secondary" display="block" sx={{ fontSize: '0.75rem' }}>
-                {subtitle}
-              </Typography>
-            )}
+            <Typography variant="caption" color="text.secondary" display="block"
+              sx={{ fontSize: '0.75rem', minHeight: '1.1rem' }}>
+              {subtitle}
+            </Typography>
 
-            {trend !== undefined && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.75 }}>
-                <Box sx={{
-                  display: 'flex', alignItems: 'center', gap: 0.25,
-                  px: 0.75, py: 0.2, borderRadius: 1,
-                  bgcolor: alpha(trend >= 0 ? theme.palette.success.main : theme.palette.error.main, 0.1),
-                  color: trend >= 0 ? 'success.main' : 'error.main',
-                }}>
-                  {trend >= 0
-                    ? <TrendingUpIcon sx={{ fontSize: 13 }} />
-                    : <TrendingDownIcon sx={{ fontSize: 13 }} />}
-                  <Typography variant="caption" fontWeight={700} sx={{ fontSize: '0.7rem' }}>
-                    {Math.abs(trend)}%
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.75, minHeight: 24 }}>
+              {trend !== undefined && (
+                <>
+                  <Box sx={{
+                    display: 'flex', alignItems: 'center', gap: 0.25,
+                    px: 0.75, py: 0.2, borderRadius: 1,
+                    bgcolor: alpha(trend >= 0 ? theme.palette.success.main : theme.palette.error.main, 0.1),
+                    color: trend >= 0 ? 'success.main' : 'error.main',
+                  }}>
+                    {trend >= 0
+                      ? <TrendingUpIcon sx={{ fontSize: 13 }} />
+                      : <TrendingDownIcon sx={{ fontSize: 13 }} />}
+                    <Typography variant="caption" fontWeight={700} sx={{ fontSize: '0.7rem' }}>
+                      {Math.abs(trend)}%
+                    </Typography>
+                  </Box>
+                  <Typography variant="caption" color="text.disabled" sx={{ fontSize: '0.7rem' }}>
+                    vs. mês anterior
                   </Typography>
-                </Box>
-                <Typography variant="caption" color="text.disabled" sx={{ fontSize: '0.7rem' }}>
-                  vs. mês anterior
-                </Typography>
-              </Box>
-            )}
+                </>
+              )}
+            </Box>
           </Box>
 
           {/* Icon container */}
           <Box sx={{
-            width: 52, height: 52, borderRadius: 2, flexShrink: 0,
+            width: 40, height: 40, borderRadius: 2, flexShrink: 0,
             background: `linear-gradient(135deg, ${main} 0%, ${alpha(light, 0.75)} 100%)`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             color: '#fff',
             boxShadow: `0 4px 14px ${alpha(main, 0.35)}`,
-            '& svg': { fontSize: 24 },
+            '& svg': { fontSize: 18 },
           }}>
             {icon}
           </Box>

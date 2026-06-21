@@ -199,16 +199,16 @@ export default function PMOCPlanejamento() {
 
       <Card>
         <CardContent>
-          <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexWrap: 'wrap' }}>
             <TextField
-              size="small" placeholder="Buscar por cliente, equipamento ou técnico…"
+              size="medium" placeholder="Buscar por cliente, equipamento ou técnico…"
               value={search} onChange={(e) => setSearch(e.target.value)}
               InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }}
               sx={{ minWidth: 300 }}
             />
             <TextField
-              select size="small" label="Status" value={filtroStatus}
-              onChange={(e) => setFiltroStatus(e.target.value)} sx={{ minWidth: 150 }}
+              select size="medium" label="Status" value={filtroStatus}
+              onChange={(e) => setFiltroStatus(e.target.value)} sx={{ minWidth: 200 }}
             >
               <MenuItem value="">Todos</MenuItem>
               {['Agendada', 'Em Andamento', 'Realizada', 'Cancelada'].map((s) => (

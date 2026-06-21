@@ -82,9 +82,9 @@ export default function PMOCEquipamentos() {
 
       <Card>
         <CardContent>
-          <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexWrap: 'wrap' }}>
             <TextField
-              size="small"
+              size="medium"
               placeholder="Buscar por cliente, marca, modelo, nº série…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -92,15 +92,15 @@ export default function PMOCEquipamentos() {
               sx={{ minWidth: 300 }}
             />
             <TextField
-              select size="small" label="Cliente" value={filtroCliente}
-              onChange={(e) => setFiltroCliente(e.target.value)} sx={{ minWidth: 180 }}
+              select size="medium" label="Cliente" value={filtroCliente}
+              onChange={(e) => setFiltroCliente(e.target.value)} sx={{ minWidth: 200 }}
             >
               <MenuItem value="">Todos</MenuItem>
               {clientes.map((c) => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}
             </TextField>
             <TextField
-              select size="small" label="Situação" value={filtroSituacao}
-              onChange={(e) => setFiltroSituacao(e.target.value)} sx={{ minWidth: 150 }}
+              select size="medium" label="Situação" value={filtroSituacao}
+              onChange={(e) => setFiltroSituacao(e.target.value)} sx={{ minWidth: 200 }}
             >
               <MenuItem value="">Todas</MenuItem>
               {SITUACOES.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}

@@ -220,56 +220,59 @@ export default function Dashboard() {
       </Card>
 
       {/* ── KPIs ───────────────────────────────────────────────────── */}
-      <Grid container spacing={2.5} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} xl={3}>
-          <StatCard
-            title="Agendamentos Hoje"
-            value={agendadosHoje.length}
-            subtitle={`${agendamentos.length} no total`}
-            icon={<CalendarTodayIcon />}
-            color="primary"
-            trend={12}
-            onClick={() => navigate('/agenda')}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} xl={3}>
-          <StatCard
-            title="OS em Andamento"
-            value={emAndamento.length}
-            subtitle={`${ordens.length} OS abertas`}
-            icon={<AssignmentIcon />}
-            color="warning"
-            onClick={() => navigate('/ordens')}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} xl={3}>
-          <StatCard
-            title="A Receber"
-            value={formatCurrency(totalReceber)}
-            subtitle="Contas em aberto"
-            icon={<AttachMoneyIcon />}
-            color="success"
-            trend={8}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} xl={3}>
-          <StatCard
-            title="Saldo Projetado"
-            value={formatCurrency(saldo)}
-            subtitle={`A pagar: ${formatCurrency(totalPagar)}`}
-            icon={<TrendingUpIcon />}
-            color={saldo >= 0 ? 'success' : 'error'}
-          />
-        </Grid>
-      </Grid>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', md: 'repeat(4, 1fr)' }, gap: 2.5, mb: 3 }}>
+        <StatCard
+          title="Agendamentos Hoje"
+          value={agendadosHoje.length}
+          subtitle={`${agendamentos.length} no total`}
+          icon={<CalendarTodayIcon />}
+          color="primary"
+          trend={12}
+          onClick={() => navigate('/agenda')}
+        />
+        <StatCard
+          title="OS em Andamento"
+          value={emAndamento.length}
+          subtitle={`${ordens.length} OS abertas`}
+          icon={<AssignmentIcon />}
+          color="warning"
+          onClick={() => navigate('/ordens')}
+        />
+        <StatCard
+          title="A Receber"
+          value={formatCurrency(totalReceber)}
+          subtitle="Contas em aberto"
+          icon={<AttachMoneyIcon />}
+          color="success"
+          trend={8}
+        />
+        <StatCard
+          title="Saldo Projetado"
+          value={formatCurrency(saldo)}
+          subtitle={`A pagar: ${formatCurrency(totalPagar)}`}
+          icon={<TrendingUpIcon />}
+          color={saldo >= 0 ? 'success' : 'error'}
+        />
+      </Box>
 
       {/* ── Gráficos ───────────────────────────────────────────────── */}
-      <Grid container spacing={2.5} sx={{ mb: 3 }}>
-        <Grid item xs={12} md={8}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ '& .recharts-surface': { overflow: 'visible' } }}>
-              <SectionHeader title="Faturamento Mensal" subtitle="Evolução da receita nos últimos meses" />
-              <ResponsiveContainer width="100%" height={240}>
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', md: '2fr 1fr' },
+        gap: 2.5,
+        mb: 3,
+      }}>
+        <Card sx={{ height: { xs: 'auto', md: 'calc(100vh - 520px)' }, minHeight: 340 }}>
+          <CardContent sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            '&:last-child': { pb: 2.5 },
+            '& .recharts-surface': { overflow: 'visible' },
+          }}>
+            <SectionHeader title="Faturamento Mensal" subtitle="Evolução da receita nos últimos meses" />
+            <Box sx={{ flex: 1, minHeight: 0 }}>
+              <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={faturamentoMensal} margin={{ top: 16, right: 24, left: 0, bottom: 16 }}>
                   <defs>
                     <linearGradient id="gradFat" x1="0" y1="0" x2="0" y2="1">
@@ -290,19 +293,25 @@ export default function Dashboard() {
                   />
                 </AreaChart>
               </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </Grid>
+            </Box>
+          </CardContent>
+        </Card>
 
-        <Grid item xs={12} md={4}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ '& .recharts-surface': { overflow: 'visible' } }}>
-              <SectionHeader title="Tipos de OS" subtitle="Distribuição do mês" />
-              <ResponsiveContainer width="100%" height={200}>
+        <Card sx={{ height: { xs: 'auto', md: 'calc(100vh - 520px)' }, minHeight: 340 }}>
+          <CardContent sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            '&:last-child': { pb: 2.5 },
+            '& .recharts-surface': { overflow: 'visible' },
+          }}>
+            <SectionHeader title="Tipos de OS" subtitle="Distribuição do mês" />
+            <Box sx={{ flex: 1, minHeight: 0 }}>
+              <ResponsiveContainer width="100%" height="100%">
                 <PieChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
                   <Pie
                     data={tiposOS} cx="50%" cy="50%"
-                    innerRadius={40} outerRadius={62}
+                    innerRadius="28%" outerRadius="44%"
                     paddingAngle={3} dataKey="value"
                     strokeWidth={0}
                   >
@@ -313,150 +322,140 @@ export default function Dashboard() {
                   />
                 </PieChart>
               </ResponsiveContainer>
-              <Stack spacing={0.75} sx={{ mt: 1 }}>
-                {tiposOS.map((t, i) => (
-                  <Box key={t.name} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: PIE_COLORS[i], flexShrink: 0 }} />
-                    <Typography variant="caption" sx={{ flex: 1 }}>{t.name}</Typography>
-                    <Typography variant="caption" fontWeight={700}>{t.value}%</Typography>
-                  </Box>
-                ))}
-              </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+            </Box>
+            <Stack spacing={0.75} sx={{ pt: 1.5, borderTop: `1px solid ${theme.palette.divider}` }}>
+              {tiposOS.map((t, i) => (
+                <Box key={t.name} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: PIE_COLORS[i], flexShrink: 0 }} />
+                  <Typography variant="caption" sx={{ flex: 1 }}>{t.name}</Typography>
+                  <Typography variant="caption" fontWeight={700}>{t.value}%</Typography>
+                </Box>
+              ))}
+            </Stack>
+          </CardContent>
+        </Card>
+      </Box>
 
       {/* ── PMOC + Indicadores ─────────────────────────────────────── */}
-      <Grid container spacing={2.5} sx={{ mb: 3 }}>
-        <Grid item xs={12} md={4}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent>
-              <SectionHeader title="PMOC" subtitle="Visão rápida dos contratos" action="Ver PMOC" onAction={() => navigate('/pmoc')} />
-              <Stack spacing={1.5}>
-                {[
-                  { label: 'Contratos ativos', value: pmocAtivos, color: 'success' },
-                  { label: 'Vencendo em 30d', value: pmocVencendo, color: pmocVencendo > 0 ? 'warning' : 'success' },
-                  { label: 'Total de contratos', value: contratosPMOC.length, color: 'primary' },
-                ].map((item) => (
-                  <Box key={item.label} sx={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    p: 1.5, borderRadius: 1.5,
-                    bgcolor: alpha(theme.palette[item.color].main, 0.06),
-                  }}>
-                    <Typography variant="body2" color="text.secondary">{item.label}</Typography>
-                    <Typography variant="h6" fontWeight={700} color={`${item.color}.main`}>{item.value}</Typography>
-                  </Box>
-                ))}
-              </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 2fr' }, gap: 2.5, mb: 3 }}>
+        <Card sx={{ height: '100%' }}>
+          <CardContent>
+            <SectionHeader title="PMOC" subtitle="Visão rápida dos contratos" action="Ver PMOC" onAction={() => navigate('/pmoc')} />
+            <Stack spacing={1.5}>
+              {[
+                { label: 'Contratos ativos', value: pmocAtivos, color: 'success' },
+                { label: 'Vencendo em 30d', value: pmocVencendo, color: pmocVencendo > 0 ? 'warning' : 'success' },
+                { label: 'Total de contratos', value: contratosPMOC.length, color: 'primary' },
+              ].map((item) => (
+                <Box key={item.label} sx={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  p: 1.5, borderRadius: 1.5,
+                  bgcolor: alpha(theme.palette[item.color].main, 0.06),
+                }}>
+                  <Typography variant="body2" color="text.secondary">{item.label}</Typography>
+                  <Typography variant="h6" fontWeight={700} color={`${item.color}.main`}>{item.value}</Typography>
+                </Box>
+              ))}
+            </Stack>
+          </CardContent>
+        </Card>
 
-        <Grid item xs={12} md={8}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent>
-              <SectionHeader title="Indicadores do Mês" subtitle="Performance operacional" />
-              <Grid container spacing={2}>
-                {[
-                  { label: 'Total de OS', value: ordens.length, icon: <AssignmentIcon />, color: 'primary' },
-                  { label: 'Instalações', value: ordens.filter((o) => o.tipo === 'Instalação').length, icon: <AcUnitIcon />, color: 'info' },
-                  { label: 'Manutenções', value: ordens.filter((o) => o.tipo?.includes('Manutenção')).length, icon: <BuildIcon />, color: 'warning' },
-                  { label: 'Concluídas', value: ordens.filter((o) => o.status === 'Concluída').length, icon: <CheckCircleIcon />, color: 'success' },
-                ].map((item) => (
-                  <Grid item xs={6} key={item.label}>
+        <Card sx={{ height: '100%' }}>
+          <CardContent>
+            <SectionHeader title="Indicadores do Mês" subtitle="Performance operacional" />
+            <Grid container spacing={2}>
+              {[
+                { label: 'Total de OS', value: ordens.length, icon: <AssignmentIcon />, color: 'primary' },
+                { label: 'Instalações', value: ordens.filter((o) => o.tipo === 'Instalação').length, icon: <AcUnitIcon />, color: 'info' },
+                { label: 'Manutenções', value: ordens.filter((o) => o.tipo?.includes('Manutenção')).length, icon: <BuildIcon />, color: 'warning' },
+                { label: 'Concluídas', value: ordens.filter((o) => o.status === 'Concluída').length, icon: <CheckCircleIcon />, color: 'success' },
+              ].map((item) => (
+                <Grid item xs={6} key={item.label}>
+                  <Box sx={{
+                    p: 2, borderRadius: 2, textAlign: 'center',
+                    border: `1px solid ${alpha(theme.palette[item.color].main, 0.2)}`,
+                    bgcolor: alpha(theme.palette[item.color].main, 0.04),
+                    position: 'relative', overflow: 'hidden',
+                  }}>
                     <Box sx={{
-                      p: 2, borderRadius: 2, textAlign: 'center',
-                      border: `1px solid ${alpha(theme.palette[item.color].main, 0.2)}`,
-                      bgcolor: alpha(theme.palette[item.color].main, 0.04),
-                      position: 'relative', overflow: 'hidden',
-                    }}>
-                      <Box sx={{
-                        position: 'absolute', right: -12, top: -12,
-                        width: 60, height: 60, borderRadius: '50%',
-                        bgcolor: alpha(theme.palette[item.color].main, 0.08),
-                      }} />
-                      <Box sx={{ color: `${item.color}.main`, mb: 0.5, position: 'relative' }}>{item.icon}</Box>
-                      <Typography variant="h4" fontWeight={800} color={`${item.color}.main`}>{item.value}</Typography>
-                      <Typography variant="caption" color="text.secondary">{item.label}</Typography>
-                    </Box>
-                  </Grid>
-                ))}
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+                      position: 'absolute', right: -12, top: -12,
+                      width: 60, height: 60, borderRadius: '50%',
+                      bgcolor: alpha(theme.palette[item.color].main, 0.08),
+                    }} />
+                    <Box sx={{ color: `${item.color}.main`, mb: 0.5, position: 'relative' }}>{item.icon}</Box>
+                    <Typography variant="h4" fontWeight={800} color={`${item.color}.main`}>{item.value}</Typography>
+                    <Typography variant="caption" color="text.secondary">{item.label}</Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </CardContent>
+        </Card>
+      </Box>
 
       {/* ── Agenda + OS ────────────────────────────────────────────── */}
-      <Grid container spacing={2.5}>
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <SectionHeader
-                title="Agenda de Hoje"
-                subtitle={`${agendadosHoje.length} compromisso${agendadosHoje.length !== 1 ? 's' : ''}`}
-                action="Ver agenda"
-                onAction={() => navigate('/agenda')}
-              />
-              {agendadosHoje.length === 0 ? (
-                <Box sx={{ py: 4, textAlign: 'center' }}>
-                  <CalendarTodayIcon sx={{ fontSize: 40, color: 'text.disabled', mb: 1 }} />
-                  <Typography color="text.secondary" variant="body2">Nenhum agendamento para hoje.</Typography>
-                </Box>
-              ) : (
-                agendadosHoje.map((ag) => <AgendaItem key={ag.id} ag={ag} />)
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2.5 }}>
+        <Card>
+          <CardContent>
+            <SectionHeader
+              title="Agenda de Hoje"
+              subtitle={`${agendadosHoje.length} compromisso${agendadosHoje.length !== 1 ? 's' : ''}`}
+              action="Ver agenda"
+              onAction={() => navigate('/agenda')}
+            />
+            {agendadosHoje.length === 0 ? (
+              <Box sx={{ py: 4, textAlign: 'center' }}>
+                <CalendarTodayIcon sx={{ fontSize: 40, color: 'text.disabled', mb: 1 }} />
+                <Typography color="text.secondary" variant="body2">Nenhum agendamento para hoje.</Typography>
+              </Box>
+            ) : (
+              agendadosHoje.map((ag) => <AgendaItem key={ag.id} ag={ag} />)
+            )}
+          </CardContent>
+        </Card>
 
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <SectionHeader
-                title="Últimas OS"
-                subtitle="Ordens de serviço recentes"
-                action="Ver todas"
-                onAction={() => navigate('/ordens')}
-              />
-              {ordens.slice(0, 5).map((os) => <OSItem key={os.id} os={os} />)}
-            </CardContent>
-          </Card>
-        </Grid>
+        <Card>
+          <CardContent>
+            <SectionHeader
+              title="Últimas OS"
+              subtitle="Ordens de serviço recentes"
+              action="Ver todas"
+              onAction={() => navigate('/ordens')}
+            />
+            {ordens.slice(0, 5).map((os) => <OSItem key={os.id} os={os} />)}
+          </CardContent>
+        </Card>
 
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <SectionHeader
-                title="Contas a Receber"
-                subtitle="Em aberto"
-                action="Ver financeiro"
-                onAction={() => navigate('/financeiro/receber')}
-              />
-              {contasReceber.slice(0, 5).map((c, i) => {
-                const vencida = new Date(c.vencimento) < new Date() && c.situacao !== 'Recebido';
-                return (
-                  <Box key={c.id} sx={{
-                    display: 'flex', alignItems: 'center', gap: 1.5, py: 1.25,
-                    borderBottom: i < 4 ? `1px solid ${theme.palette.divider}` : 0,
-                  }}>
-                    <Box sx={{ flex: 1, minWidth: 0 }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Typography variant="body2" fontWeight={600} noWrap>{c.clienteNome}</Typography>
-                        <StatusChip status={c.situacao} />
-                      </Box>
-                      <Typography variant="caption" color={vencida ? 'error.main' : 'text.secondary'}>
-                        {formatCurrency(c.valor)} · {vencida ? '⚠ ' : ''}Vence: {formatDate(c.vencimento)}
-                      </Typography>
+        <Card>
+          <CardContent>
+            <SectionHeader
+              title="Contas a Receber"
+              subtitle="Em aberto"
+              action="Ver financeiro"
+              onAction={() => navigate('/financeiro/receber')}
+            />
+            {contasReceber.slice(0, 5).map((c, i) => {
+              const vencida = new Date(c.vencimento) < new Date() && c.situacao !== 'Recebido';
+              return (
+                <Box key={c.id} sx={{
+                  display: 'flex', alignItems: 'center', gap: 1.5, py: 1.25,
+                  borderBottom: i < 4 ? `1px solid ${theme.palette.divider}` : 0,
+                }}>
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography variant="body2" fontWeight={600} noWrap>{c.clienteNome}</Typography>
+                      <StatusChip status={c.situacao} />
                     </Box>
+                    <Typography variant="caption" color={vencida ? 'error.main' : 'text.secondary'}>
+                      {formatCurrency(c.valor)} · {vencida ? '⚠ ' : ''}Vence: {formatDate(c.vencimento)}
+                    </Typography>
                   </Box>
-                );
-              })}
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+                </Box>
+              );
+            })}
+          </CardContent>
+        </Card>
+      </Box>
     </Box>
   );
 }

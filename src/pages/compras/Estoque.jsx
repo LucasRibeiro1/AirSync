@@ -106,22 +106,20 @@ export default function Estoque() {
 
       <Card>
         <CardContent>
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth size="small" placeholder="Buscar produto..." value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Categoria</InputLabel>
-                <Select value={filterCat} onChange={(e) => setFilterCat(e.target.value)} label="Categoria">
-                  <MenuItem value="">Todas</MenuItem>
-                  {categorias.map((c) => <MenuItem key={c} value={c}>{c}</MenuItem>)}
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap', mb: 2 }}>
+            <TextField
+              size="medium" placeholder="Buscar produto..." value={search}
+              onChange={(e) => setSearch(e.target.value)} sx={{ minWidth: 280 }}
+              InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }}
+            />
+            <FormControl size="medium" sx={{ minWidth: 200 }}>
+              <InputLabel>Categoria</InputLabel>
+              <Select value={filterCat} onChange={(e) => setFilterCat(e.target.value)} label="Categoria">
+                <MenuItem value="">Todas</MenuItem>
+                {categorias.map((c) => <MenuItem key={c} value={c}>{c}</MenuItem>)}
+              </Select>
+            </FormControl>
+          </Box>
           <TableContainer>
             <Table size="small">
               <TableHead>

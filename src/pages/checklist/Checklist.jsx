@@ -209,20 +209,20 @@ export default function Checklist() {
 
       <Card>
         <CardContent>
-          <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexWrap: 'wrap' }}>
             <TextField
-              size="small" placeholder="Buscar por cliente, nº ou equipamento…"
+              size="medium" placeholder="Buscar por cliente, nº ou equipamento…"
               value={search} onChange={(e) => setSearch(e.target.value)}
               InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }}
-              sx={{ minWidth: 280 }}
+              sx={{ minWidth: 300 }}
             />
-            <TextField select size="small" label="Tipo" value={filtroTipo}
-              onChange={(e) => setFiltroTipo(e.target.value)} sx={{ minWidth: 140 }}>
+            <TextField select size="medium" label="Tipo" value={filtroTipo}
+              onChange={(e) => setFiltroTipo(e.target.value)} sx={{ minWidth: 200 }}>
               <MenuItem value="">Todos</MenuItem>
               {Object.keys(TIPOS_CHECKLIST).map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
             </TextField>
-            <TextField select size="small" label="Status" value={filtroStatus}
-              onChange={(e) => setFiltroStatus(e.target.value)} sx={{ minWidth: 140 }}>
+            <TextField select size="medium" label="Status" value={filtroStatus}
+              onChange={(e) => setFiltroStatus(e.target.value)} sx={{ minWidth: 200 }}>
               <MenuItem value="">Todos</MenuItem>
               {['Em Andamento', 'Concluído', 'Pendente'].map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
             </TextField>

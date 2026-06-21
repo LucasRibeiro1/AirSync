@@ -114,22 +114,20 @@ export default function ContasPagar() {
 
       <Card>
         <CardContent>
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth size="small" placeholder="Buscar..." value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Situação</InputLabel>
-                <Select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} label="Situação">
-                  <MenuItem value="">Todas</MenuItem>
-                  {STATUS.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap', mb: 2 }}>
+            <TextField
+              size="medium" placeholder="Buscar..." value={search}
+              onChange={(e) => setSearch(e.target.value)} sx={{ minWidth: 280 }}
+              InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }}
+            />
+            <FormControl size="medium" sx={{ minWidth: 200 }}>
+              <InputLabel>Situação</InputLabel>
+              <Select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} label="Situação">
+                <MenuItem value="">Todas</MenuItem>
+                {STATUS.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
+              </Select>
+            </FormControl>
+          </Box>
           <TableContainer>
             <Table size="small">
               <TableHead>

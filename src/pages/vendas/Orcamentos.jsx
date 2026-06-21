@@ -165,7 +165,7 @@ export default function Orcamentos() {
 
       <Card>
         <CardContent>
-          <TextField fullWidth size="small" placeholder="Buscar orçamento..." value={search}
+          <TextField fullWidth size="medium" placeholder="Buscar orçamento..." value={search}
             onChange={(e) => setSearch(e.target.value)} sx={{ mb: 2 }}
             InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }} />
           <TableContainer>

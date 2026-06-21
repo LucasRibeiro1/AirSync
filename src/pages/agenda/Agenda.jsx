@@ -104,34 +104,28 @@ export default function Agenda() {
       {/* Filtros */}
       <Card sx={{ mb: 2 }}>
         <CardContent sx={{ py: 1.5, '&:last-child': { pb: 1.5 } }}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={4} md={3}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Técnico</InputLabel>
-                <Select value={filterTecnico} onChange={(e) => setFilterTecnico(e.target.value)} label="Técnico">
-                  <MenuItem value="">Todos</MenuItem>
-                  {tecnicos.map((t) => <MenuItem key={t.id} value={t.id}>{t.nome}</MenuItem>)}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={4} md={3}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Status</InputLabel>
-                <Select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} label="Status">
-                  <MenuItem value="">Todos</MenuItem>
-                  {['Agendado','Confirmado','Em atendimento','Concluído','Cancelado'].map((s) => (
-                    <MenuItem key={s} value={s}>{s}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item>
-              <Button variant="outlined" size="small" startIcon={<TodayIcon />}
-                onClick={() => setCurrentDate(new Date())}>
-                Hoje
-              </Button>
-            </Grid>
-          </Grid>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+            <FormControl size="medium" sx={{ minWidth: 200 }}>
+              <InputLabel>Técnico</InputLabel>
+              <Select value={filterTecnico} onChange={(e) => setFilterTecnico(e.target.value)} label="Técnico">
+                <MenuItem value="">Todos</MenuItem>
+                {tecnicos.map((t) => <MenuItem key={t.id} value={t.id}>{t.nome}</MenuItem>)}
+              </Select>
+            </FormControl>
+            <FormControl size="medium" sx={{ minWidth: 200 }}>
+              <InputLabel>Status</InputLabel>
+              <Select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} label="Status">
+                <MenuItem value="">Todos</MenuItem>
+                {['Agendado','Confirmado','Em atendimento','Concluído','Cancelado'].map((s) => (
+                  <MenuItem key={s} value={s}>{s}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Button variant="outlined" size="medium" startIcon={<TodayIcon />}
+              onClick={() => setCurrentDate(new Date())}>
+              Hoje
+            </Button>
+          </Box>
         </CardContent>
       </Card>
 

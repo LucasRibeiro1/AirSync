@@ -90,18 +90,18 @@ export default function PMOCContratos() {
 
       <Card>
         <CardContent>
-          <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexWrap: 'wrap' }}>
             <TextField
-              size="small"
+              size="medium"
               placeholder="Buscar por cliente, nº ou unidade…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }}
-              sx={{ minWidth: 280 }}
+              sx={{ minWidth: 300 }}
             />
             <TextField
-              select size="small" label="Status" value={filtroStatus}
-              onChange={(e) => setFiltroStatus(e.target.value)} sx={{ minWidth: 160 }}
+              select size="medium" label="Status" value={filtroStatus}
+              onChange={(e) => setFiltroStatus(e.target.value)} sx={{ minWidth: 200 }}
             >
               <MenuItem value="">Todos</MenuItem>
               <MenuItem value="Ativo">Ativo</MenuItem>

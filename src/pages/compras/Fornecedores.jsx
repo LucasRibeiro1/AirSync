@@ -61,7 +61,7 @@ export default function Fornecedores() {
       <PageHeader title="Fornecedores" action={() => { setEditing(null); setFormOpen(true); }} actionLabel="Novo Fornecedor" />
       <Card>
         <CardContent>
-          <TextField fullWidth size="small" placeholder="Buscar fornecedor..." value={search}
+          <TextField fullWidth size="medium" placeholder="Buscar fornecedor..." value={search}
             onChange={(e) => setSearch(e.target.value)} sx={{ mb: 2 }}
             InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }} />
           <TableContainer>
